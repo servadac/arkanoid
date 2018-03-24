@@ -45,7 +45,7 @@
         html: `<div class="bricksArea" ref="bricksArea"></div>`
     }
 
-    function Brick() {
+    function Bricks() {
       
     }
 

@@ -24,14 +24,14 @@ body {
     border: 1px solid #ccc;
 }
 
-.arena .bricks {
+.arena .bricksArea {
     position: absolute;
     top: 20px;
     width: 100%;
     background-color: #ccc;
 }
 
-.arena .bricks .brick {
+.arena .bricksArea .bricks {
     width: 28px;
     height: 10px;
     margin: 1px;
@@ -40,7 +40,7 @@ body {
     border-radius: 3px;
 }
 
-.arena .bricks .brick.hide {
+.arena .bricksArea .bricks.hide {
     visibility: hidden;
 }
 
