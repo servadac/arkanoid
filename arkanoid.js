@@ -1,4 +1,6 @@
 (function () {
+
+    const gameWrap = document.getElementById("arkanoid")
     const store = {
         lifes: 3,
         score: 25,
@@ -21,12 +23,33 @@
 
     function Arena() {
         this.arena = createElementFromHtml(this.html);
+        this.arena.tabIndex = -1;
         this.balls = [];
         this.createBall();
         this.paddleInst = new Paddle();
         this.arena.appendChild(this.paddleInst.paddle);
         bricksAreaInst = new BricksArea();
         this.arena.appendChild(bricksAreaInst.bricksArea);
+        const {
+          paddleInst
+        } = this;
+        this.arena.addEventListener("keydown", function(e) {
+          if(e.keyCode === 37) {
+            paddleInst.paddle.style.left = paddleInst.getLeft() - 20 + "px";
+          }
+          if(e.keyCode === 39) {
+
+            paddleInst.paddle.style.left = paddleInst.getLeft() + 20 + "px";
+          }
+        }, false);
+
+        const {
+            top: arenaTop,
+            left: arenaLeft,
+            right: arenaRight,
+            width: arenaWidth,
+            height: arenaHeight
+        } = this.arena.getBoundingClientRect();
 
 
     }
@@ -51,7 +74,9 @@
 
         start: function() {
           this.setBallPosition();
-        }
+        },
+
+
     };
 
     function BricksArea() {
@@ -140,4 +165,5 @@ Panel.prototype = {
     arenaCreator.start();
 
 }());
+
 
