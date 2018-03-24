@@ -16,6 +16,8 @@
         this.createBall();
         this.paddleInst = new Paddle();
         this.arena.appendChild(this.paddleInst.paddle);
+        this.bricks = [];
+        this.createBricks();
     }
 
     Arena.prototype = {
@@ -25,11 +27,21 @@
 
             this.arena.appendChild(ballInst.ball);
             this.balls.push(ballInst);
+        },
+
+        createBricks: function () {
+            const bricksInst = new Bricks();
+
+            this.arena.appendChild(bricksInst.bricks);
+            this.balls.push(bricksInst);
         }
     };
 
     function Bricks() {
-
+        this.bricks = createElementFromHtml(this.html);
+    }
+    Bricks.prototype = {
+        html: `<div class="bricks" ref="bricks"></div>`
     }
 
     function Brick() {
