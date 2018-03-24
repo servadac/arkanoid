@@ -27,6 +27,8 @@
         this.arena.appendChild(this.paddleInst.paddle);
         bricksAreaInst = new BricksArea();
         this.arena.appendChild(bricksAreaInst.bricksArea);
+
+
     }
 
     Arena.prototype = {
@@ -36,21 +38,26 @@
 
             this.arena.appendChild(ballInst.ball);
             this.balls.push(ballInst);
+
+
+        },
+
+        setBallPosition: function () {
+          console.log(this.balls[0]);
+          console.log(this.paddleInst);
+          console.log(this.paddleInst.getWidth());
+          console.log(this.paddleInst.getLeft());
+          console.log(this.paddleInst.getTop());
+          const ballLeft = this.paddleInst.getLeft() + (this.paddleInst.getWidth() / 2) - (this.balls[0].getDiameter() / 2);
+          const ballTop = this.paddleInst.getTop() - this.balls[0].getDiameter();
+          this.balls[0].ball.style.left = ballLeft + "px";
+          this.balls[0].ball.style.top = ballTop + "px";
+        },
+
+        start: function() {
+          this.setBallPosition();
         }
     };
-
-    function Panel() {
-        this.panel = createElementFromHtml(this.html);
-        this.panel.querySelector("[ref=lifes]").innerHTML = store.lifes;
-        this.panel.querySelector("[ref=score]").innerHTML = store.score;
-    }
-
-    Panel.prototype = {
-        html: ` <div class="panel">
-                    <div class="lifes">Lifes: <span ref="lifes"></span></div>
-                    <div class="score">Score: <span ref="score"></span></div>
-                </div>`
-    }    
 
     function BricksArea() {
         this.bricksArea = createElementFromHtml(this.html);
@@ -65,15 +72,15 @@
             const brick = brickElement.cloneNode(true);
             brick.dataset.score = store.scoreList[Math.floor(Math.random() * 3)];
             fragment.appendChild(brick);
-            
+
         }
         //-------
         this.bricksArea.appendChild(fragment);
-        
+
     }
     BricksArea.prototype = {
         html: `<div class="bricksArea" ref="bricksArea"></div>`,
-        
+
 
 
     }
@@ -117,7 +124,25 @@
         }
     });
 
-    document.getElementById("arkanoid").appendChild((new Arena()).arena);
+    function Panel() {
+    this.panel = createElementFromHtml(this.html);
+    this.panel.querySelector("[ref=lifes]").innerHTML = store.lifes;
+    this.panel.querySelector("[ref=score]").innerHTML = store.score;
+}
+
+Panel.prototype = {
+    html: ` <div class="panel">
+                <div class="lifes">Lifes: <span ref="lifes"></span></div>
+                <div class="score">Score: <span ref="score"></span></div>
+            </div>`
+}
+
+
+
+    const arenaCreator = new Arena()
+    document.getElementById("arkanoid").appendChild(arenaCreator.arena);
     document.getElementById("arkanoid").appendChild((new Panel()).panel);
+    arenaCreator.start();
+
 }());
 
