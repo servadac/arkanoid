@@ -1,7 +1,7 @@
 (function () {
     const store = {
         lifes: 3,
-        score: 0,
+        score: 25,
         scoreList: [1, 3, 5],
         bricks: {
             quantity: 30
@@ -38,6 +38,19 @@
             this.balls.push(ballInst);
         }
     };
+
+    function Panel() {
+        this.panel = createElementFromHtml(this.html);
+        this.panel.querySelector("[ref=lifes]").innerHTML = store.lifes;
+        this.panel.querySelector("[ref=score]").innerHTML = store.score;
+    }
+
+    Panel.prototype = {
+        html: ` <div class="panel">
+                    <div class="lifes">Lifes: <span ref="lifes"></span></div>
+                    <div class="score">Score: <span ref="score"></span></div>
+                </div>`
+    }    
 
     function BricksArea() {
         this.bricksArea = createElementFromHtml(this.html);
@@ -105,5 +118,6 @@
     });
 
     document.getElementById("arkanoid").appendChild((new Arena()).arena);
+    document.getElementById("arkanoid").appendChild((new Panel()).panel);
 }());
 
