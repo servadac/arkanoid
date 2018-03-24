@@ -1,4 +1,12 @@
 (function () {
+    const store {
+        lifes: 3,
+        score: 0,
+        bricks {
+            quantity: 30
+        }
+    }
+
     function createElementFromHtml(html) {
         const div = document.createElement("div");
         div.innerHTML = html;
