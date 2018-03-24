@@ -2,6 +2,7 @@
     const store = {
         lifes: 3,
         score: 0,
+        scoreList: [1, 3, 5],
         bricks: {
             quantity: 30
         }
@@ -40,13 +41,28 @@
 
     function BricksArea() {
         this.bricksArea = createElementFromHtml(this.html);
+
+        //-------
+        const fragment = document.createDocumentFragment();
+
+        const brickElement = document.createElement("div");
+        brickElement.classList.add("brick");
+
+        for (let i = 1; i <= store.bricks.quantity; i += 1) {
+            const brick = brickElement.cloneNode(true);
+            brick.dataset.score = store.scoreList[Math.floor(Math.random() * 3)];
+            fragment.appendChild(brick);
+            
+        }
+        //-------
+        this.bricksArea.appendChild(fragment);
+        
     }
     BricksArea.prototype = {
-        html: `<div class="bricksArea" ref="bricksArea"></div>`
-    }
+        html: `<div class="bricksArea" ref="bricksArea"></div>`,
+        
 
-    function Bricks() {
-      
+
     }
 
     function Ball() {
