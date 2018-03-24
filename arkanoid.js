@@ -1,197 +1,79 @@
 (function () {
-    const gameWrap = document.getElementById("arkanoid");
-    const tpl = getElementsByAttribute("ref", gameWrap);
+    function createElementFromHtml(html) {
+        const div = document.createElement("div");
+        div.innerHTML = html;
 
-    const {
-        top: arenaTop,
-        left: arenaLeft,
-        right: arenaRight,
-        width: arenaWidth,
-        height: arenaHeight
-    } = tpl.arena.getBoundingClientRect();
+        return div.firstElementChild;
+    }
 
-    const paddleTop = tpl.paddle.offsetTop;
-    const paddleWidth = tpl.paddle.offsetWidth;
+    function Arkanoid() {
 
-    let bricksTop;
-    let bricksBottom;
+    }
 
-    const ballDiameter = tpl.ball.offsetHeight;
-    const ballRadius = ballDiameter / 2;
+    function Arena() {
+        this.arena = createElementFromHtml(this.html);
+        this.balls = [];
+        this.createBall();
+        this.paddleInst = new Paddle();
+        this.arena.appendChild(this.paddleInst.paddle);
+    }
 
-    let lifes;
-    let score = 0;
+    Arena.prototype = {
+        html: `<div class="arena" ref="arena"></div>`,
+        createBall: function () {
+            const ballInst = new Ball();
 
-    let bricksQuantity;
-
-    function mouseMove(e) {
-        const x = e.pageX;
-        if (arenaLeft < x) {
-            if (x < arenaRight - paddleWidth) {
-                tpl.paddle.style.left = `${x - arenaLeft}px`;
-            }
+            this.arena.appendChild(ballInst.ball);
+            this.balls.push(ballInst);
         }
+    };
+
+    function Bricks() {
+
     }
 
-    function getElementsByAttribute(attr, parent = document) {
-        return [...parent.querySelectorAll(`[${attr}]`)].reduce((retObj, element) => {
-            const name = element.getAttribute(attr);
-            retObj[name] = element;
-            element.removeAttribute(attr);
-            return retObj;
-        }, {});
+    function Brick() {
+
     }
 
-    tpl.paddle.addEventListener("mouseup", function (event) {
-        document.removeEventListener("mousemove", mouseMove, false);
-    }, false);
-
-    tpl.paddle.addEventListener("click", function (event) {
-        console.log(event.type);
-    }, false);
-
-    window.arena = tpl.arena;
-
-    let deltaX = 1;
-    let deltaY = -1;
-
-    function startBall() {
-        const intervalID = setInterval(function () {
-            const ballLeftPos = tpl.ball.offsetLeft + deltaX;
-            const ballTopPos = tpl.ball.offsetTop + deltaY;
-            tpl.ball.style.top = ballTopPos + "px";
-            tpl.ball.style.left = ballLeftPos + "px";
-
-            if (ballLeftPos > arenaWidth - ballDiameter || ballLeftPos <= 0) {
-                deltaX *= -1;
-            }
-
-            if (
-                ballTopPos <= 0 ||
-                (
-                    ballTopPos >= paddleTop - ballDiameter &&
-                    ballLeftPos >= tpl.paddle.offsetLeft + ballRadius &&
-                    ballLeftPos <= tpl.paddle.offsetLeft + paddleWidth - ballRadius
-                )
-            ) {
-                deltaY *= -1
-            }
-
-            if (ballTopPos >= arenaHeight - ballDiameter) {
-                clearInterval(intervalID);
-                lifes -= 1;
-                tpl.lifes.innerHTML = lifes;
-
-                if (lifes === 0) {
-                    setTimeout(function () {
-                        alert("GAME OVER");
-                    }, 10);
-                }
-
-                reset();
-            }
-
-            if (ballTopPos >= bricksTop && ballTopPos <= bricksBottom) {
-                const element = document.elementFromPoint(
-                    arenaLeft + (ballLeftPos + (deltaX === 1 ? ballDiameter : 0)),
-                    arenaTop + (ballTopPos + (deltaY === 1 ? ballDiameter : 0))
-                );
-                if (element.classList.contains("brick")) {
-                    element.classList.add("hide");
-                    score += Number(element.dataset.score);
-                    tpl.score.innerHTML = score;
-
-                    bricksQuantity -= 1;
-
-                    deltaY *= -1;
-
-                    if (!bricksQuantity) {
-                        alert("SCORE: " + score);
-                    }
-                }
-            }
-        }, 1000 / 500)
+    function Ball() {
+        this.ball = createElementFromHtml(this.html);
     }
+    Ball.prototype = {
+        html: `<div class="ball" ref="ball"></div>`,
+        deltaX: 1,
+        deltaY: -1,
+        setPosition: function () {
+            const { ball, deltaX, deltaY } = this;
 
+            this.ballLeftPos = ball.offsetLeft + deltaX;
+            this.ballTopPos = ball.offsetTop + deltaY;
+            ball.style.top = this.ballTopPos + "px";
+            ball.style.left = this.ballLeftPos + "px";
+        },
+        getDiameter: function () {
+            return this.ball.offsetHeight;
+        },
+        getRadius: function () {
+            return this.getDiameter() / 2;
+        }
+    };
 
-    function start() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/game");
-        xhr.responseType = "json";
-        xhr.addEventListener("load", function () {
-            const {
-                bricks: { quantity },
-                lifes: resLifes,
-                scoreList
-            } = this.response[0];
-            const fragment = document.createDocumentFragment();
-
-            const brickElement = document.createElement("div");
-            brickElement.classList.add("brick");
-
-            for (let i = 1; i <= quantity; i += 1) {
-                const brick = brickElement.cloneNode(true);
-                brick.dataset.score = scoreList[Math.floor(Math.random() * 3)];
-                fragment.appendChild(brick);
-            }
-
-            bricksQuantity = quantity;
-
-            lifes = resLifes;
-            tpl.lifes.innerHTML = lifes;
-            tpl.score.innerHTML = score;
-
-            tpl.bricks.appendChild(fragment);
-
-            bricksTop = tpl.bricks.offsetTop;
-            bricksBottom = bricksTop + tpl.bricks.offsetHeight;
-        });
-        xhr.send();
-
-        setBallPosition();
-
-        tpl.paddle.addEventListener("mousedown", function (event) {
-            document.addEventListener("mousemove", mouseMove, false);
-            startBall();
-        }, false);
-
-        gameWrap.addEventListener("keydown", function (e) {
-            if (e.keyCode === 32) {
-                startBall();
-            }
-            if (e.keyCode === 37) {
-                tpl.paddle.style.left = tpl.paddle.offsetLeft - 5 + "px";
-            }
-
-            if (e.keyCode === 39) {
-                tpl.paddle.style.left = tpl.paddle.offsetLeft + 5 + "px";
-            }
-        }, false);
+    function Paddle() {
+        this.paddle = createElementFromHtml(this.html);
     }
+    Object.assign(Paddle.prototype, {
+        html: `<div class="paddle" ref="paddle"></div>`,
+        getLeft: function () {
+            return this.paddle.offsetLeft;
+        },
+        getTop: function () {
+            return this.paddle.offsetTop;
+        },
+        getWidth: function () {
+            return this.paddle.offsetWidth;
+        }
+    });
 
-    function setBallPosition() {
-        const { ball, paddle } = tpl;
-        // const ball = tpl.ball;
-        // const paddle = tpl.paddle;
-        const ballLeft = paddle.offsetLeft + (paddleWidth / 2) - (ballDiameter / 2);
-        const ballTop = paddleTop - ballDiameter;
-        ball.style.left = ballLeft + "px";
-        ball.style.top = ballTop + "px";
-    }
-
-    function setPaddlePosition() {
-        const { paddle } = tpl;
-
-        paddle.style.left = (arenaWidth - paddleWidth) / 2 + "px";
-    }
-
-    function reset() {
-        document.removeEventListener("mousemove", mouseMove, false);
-        deltaX = 1;
-        deltaY = -1;
-        setPaddlePosition();
-        setBallPosition();
-    }
-
-    start();
+    document.getElementById("arkanoid").appendChild((new Arena()).arena);
 }());
