@@ -26,61 +26,6 @@
         this.arena.appendChild(this.paddleInst.paddle);
         bricksInst = new Bricks();
         this.arena.appendChild(bricksInst.bricks);
-        /*-------
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/game");
-        xhr.responseType = "json";
-        xhr.addEventListener("load", function () {
-            const {
-                bricks: { quantity },
-                lifes: resLifes,
-                scoreList
-            } = this.response[0];
-            const fragment = document.createDocumentFragment();
-
-            const brickElement = document.createElement("div");
-            brickElement.classList.add("brick");
-
-            for (let i = 1; i <= quantity; i += 1) {
-                const brick = brickElement.cloneNode(true);
-                brick.dataset.score = scoreList[Math.floor(Math.random() * 3)];
-                fragment.appendChild(brick);
-            }
-
-            bricksQuantity = quantity;
-
-            lifes = resLifes;
-            tpl.lifes.innerHTML = lifes;
-            tpl.score.innerHTML = score;
-
-            tpl.bricks.appendChild(fragment);
-
-            bricksTop = tpl.bricks.offsetTop;
-            bricksBottom = bricksTop + tpl.bricks.offsetHeight;
-        });
-        xhr.send();
-
-        setBallPosition();
-
-        tpl.paddle.addEventListener("mousedown", function (event) {
-            document.addEventListener("mousemove", mouseMove, false);
-            startBall();
-        }, false);
-
-        gameWrap.addEventListener("keydown", function (e) {
-            if (e.keyCode === 32) {
-                startBall();
-            }
-            if (e.keyCode === 37) {
-                tpl.paddle.style.left = tpl.paddle.offsetLeft - 20 + "px";
-            }
-
-            if (e.keyCode === 39) {
-                tpl.paddle.style.left = tpl.paddle.offsetLeft + 20 + "px";
-            }
-        }, false);
-        */
-
     }
 
     Arena.prototype = {
