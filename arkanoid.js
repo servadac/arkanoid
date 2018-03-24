@@ -22,6 +22,9 @@
     }
 
     function Arena() {
+
+
+        
         this.arena = createElementFromHtml(this.html);
         this.arena.tabIndex = -1;
         this.balls = [];
@@ -35,17 +38,17 @@
         } = this;
         this.arena.addEventListener("keydown", function(e) {
           if(e.keyCode === 37) {
-            paddleInst.paddle.style.left = paddleInst.getLeft() - 20 + "px";
+            paddleInst.paddle.style.left = paddleInst.getLeft() - paddleInst.getWidth()*2/3 + "px";
           }
-          if (paddleInst.getLeft() < 20) {
-              paddleInst.paddle.style.left = 20 + "px";
+          if (paddleInst.getLeft() < 0+(paddleInst.getWidth()*2/3)) {
+              paddleInst.paddle.style.left = 0 +(paddleInst.getWidth()*2/3) + "px";
           }
           if(e.keyCode === 39) {
 
-            paddleInst.paddle.style.left = paddleInst.getLeft() + 20 + "px";
+            paddleInst.paddle.style.left = paddleInst.getLeft() + paddleInst.getWidth()*2/3 + "px";
           }
-          if (paddleInst.getLeft() > 236) {
-            paddleInst.paddle.style.left = 236 + "px";
+          if (paddleInst.getLeft() > 256-(paddleInst.getWidth()*2/3)  ) {
+            paddleInst.paddle.style.left = 256-(paddleInst.getWidth()*2/3) + "px";
         }
         }, false);
 

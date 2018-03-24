@@ -52,7 +52,7 @@ body {
     height: 5px;
     border: 1px solid #777;
     border-radius: 3px;
-    transition: 0.5ms left;
+    transition: 120ms left;
 }
 
 .arena .ball {
