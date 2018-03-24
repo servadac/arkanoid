@@ -1,8 +1,8 @@
 (function () {
-    const store {
+    const store = {
         lifes: 3,
         score: 0,
-        bricks {
+        bricks: {
             quantity: 30
         }
     }
@@ -24,8 +24,8 @@
         this.createBall();
         this.paddleInst = new Paddle();
         this.arena.appendChild(this.paddleInst.paddle);
-        bricksInst = new Bricks();
-        this.arena.appendChild(bricksInst.bricks);
+        bricksAreaInst = new BricksArea();
+        this.arena.appendChild(bricksAreaInst.bricksArea);
     }
 
     Arena.prototype = {
@@ -38,11 +38,11 @@
         }
     };
 
-    function Bricks() {
-        this.bricks = createElementFromHtml(this.html);
+    function BricksArea() {
+        this.bricksArea = createElementFromHtml(this.html);
     }
-    Bricks.prototype = {
-        html: `<div class="bricks" ref="bricks"></div>`
+    BricksArea.prototype = {
+        html: `<div class="bricksArea" ref="bricksArea"></div>`
     }
 
     function Brick() {
