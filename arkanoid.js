@@ -37,10 +37,16 @@
           if(e.keyCode === 37) {
             paddleInst.paddle.style.left = paddleInst.getLeft() - 20 + "px";
           }
+          if (paddleInst.getLeft() < 20) {
+              paddleInst.paddle.style.left = 20 + "px";
+          }
           if(e.keyCode === 39) {
 
             paddleInst.paddle.style.left = paddleInst.getLeft() + 20 + "px";
           }
+          if (paddleInst.getLeft() > 236) {
+            paddleInst.paddle.style.left = 236 + "px";
+        }
         }, false);
 
         const {
@@ -51,7 +57,7 @@
             height: arenaHeight
         } = this.arena.getBoundingClientRect();
 
-
+            //arena.style.transform = rotate(270deg);
     }
 
     Arena.prototype = {
