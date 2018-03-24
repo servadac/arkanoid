@@ -43,11 +43,6 @@
         },
 
         setBallPosition: function () {
-          console.log(this.balls[0]);
-          console.log(this.paddleInst);
-          console.log(this.paddleInst.getWidth());
-          console.log(this.paddleInst.getLeft());
-          console.log(this.paddleInst.getTop());
           const ballLeft = this.paddleInst.getLeft() + (this.paddleInst.getWidth() / 2) - (this.balls[0].getDiameter() / 2);
           const ballTop = this.paddleInst.getTop() - this.balls[0].getDiameter();
           this.balls[0].ball.style.left = ballLeft + "px";
