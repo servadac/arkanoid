@@ -16,8 +16,8 @@
         this.createBall();
         this.paddleInst = new Paddle();
         this.arena.appendChild(this.paddleInst.paddle);
-        this.bricks = [];
-        this.createBricks();
+        bricksInst = new Bricks();
+        this.arena.appendChild(bricksInst.bricks);
     }
 
     Arena.prototype = {
@@ -27,13 +27,6 @@
 
             this.arena.appendChild(ballInst.ball);
             this.balls.push(ballInst);
-        },
-
-        createBricks: function () {
-            const bricksInst = new Bricks();
-
-            this.arena.appendChild(bricksInst.bricks);
-            this.balls.push(bricksInst);
         }
     };
 
