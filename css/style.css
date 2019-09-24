@@ -102,5 +102,9 @@ body {
 
 body.night-mode {
     background: #222;
-    /* o żesz ty chuju */
+    color: #fff;
+}
+
+body.night-mode .arena .paddle {
+    background-color: #fff;
 }
