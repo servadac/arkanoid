@@ -9,6 +9,7 @@
 
     <body>
         <div id="arkanoid" class="game" role="application" tabindex="-1">
+            <button id="toggle-night-mode">NIGHT MODE</button>
             <div class="arena" ref="arena">
                 <div class="bricks" ref="bricks">
                 </div>
@@ -29,6 +30,14 @@
         </div>
 
         <script src="arkanoid.js"></script>
+        <script type="text/javascript">
+            (function() {
+                const button = document.getElementById('toggle-night-mode');
+                button.addEventListener('click', function () {
+                    document.body.classList.add('night-mode');
+                });
+            })();
+        </script>
     </body>
 
 </html>

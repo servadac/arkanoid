@@ -99,3 +99,7 @@ body {
 [data-score="5"] {
   background-color: blue;
 }
+
+body.night-mode {
+    background: #222;
+}
