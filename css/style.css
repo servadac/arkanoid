@@ -106,6 +106,6 @@ body.night-mode {
     /* o żesz ty chuju */
 }
 
-.body.night-mode .arena .paddle {
+body.night-mode .arena .paddle {
     background: #ddd;
 }
