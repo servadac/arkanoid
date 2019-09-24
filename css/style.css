@@ -88,13 +88,13 @@ body {
   background-color: red;
 }
 [data-score="2"] {
-  background-color: ;
+  /* background-color: ; */
 }
 [data-score="3"] {
   background-color: green;
 }
 [data-score="4"] {
-  background-color: ;
+  /* background-color: ; */
 }
 [data-score="5"] {
   background-color: blue;
